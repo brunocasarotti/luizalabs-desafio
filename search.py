@@ -16,7 +16,7 @@ movie_ids = {key: value for (key, value) in enumerate(os.listdir(location))}
 
 def process():
     """This function process all movie data inside the data directory
-    filling an dictionary with an ID for each movie found.
+    filling a dictionary with an ID for each movie found.
     """
     for k, v in movie_ids.items():
         with open(os.path.join(location, v), 'r') as f:
