@@ -30,7 +30,8 @@ def process():
 
 def main(terms):
     """This function searches for the criteria and if they
-    match it's going to be printed in alphabetical order
+    match they will be returned as an array otherwise it
+    returns None
 
     terms: string
     """
@@ -38,9 +39,6 @@ def main(terms):
         raise TypeError("Invalid type. Expected {} but got {}".format(type(str), type(terms)))
 
     terms = terms.split()
-    print("\n")
-
-    start = datetime.datetime.now()
 
     if set(terms).issubset(words_movies.keys()):
         # get the movies for each keyword
@@ -48,13 +46,9 @@ def main(terms):
         selected_movies = set(set_list[0]).intersection(*set_list)
         found = [movie_ids[x]
                    for x in selected_movies]  # retrieve movie data
-        end = datetime.datetime.now()
-        pp(sorted(found))
-        print("\nFound {} in {}".format(len(found), (end - start).total_seconds()))
+        return found
     else:
-        end = datetime.datetime.now()
-        print("No entries found for the given criteria")
-        print("Time spent: {}".format((end-start).total_seconds()))
+        return None
 
 
 if __name__ == '__main__':
@@ -66,4 +60,15 @@ if __name__ == '__main__':
     print("Processing list...")
     process()
     print("Done. Searching for: '{}'".format(sys.argv[1]))
-    main(sys.argv[1])
+    print("\n")
+    start = datetime.datetime.now()
+    results = main(sys.argv[1])
+    end = datetime.datetime.now()
+    if results:
+        pp(sorted(results))
+        print("\nFound {} in {}".format(len(results), (end - start).total_seconds()))
+    else:
+        print("No entries found for the given criteria")
+        print("Time spent: {}".format((end-start).total_seconds()))
+
+
